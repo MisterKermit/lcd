@@ -2,7 +2,7 @@
 #include <LiquidCrystal.h>
 
 
-const int rs = 40, en = 38, d4 = 36, d5 = 34, d6 = 32, d7 = 30;
+const int rs = 8, en = 9, d4 = 10, d5 = 11, d6 = 12, d7 = 13;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 const byte numChars = 32;
@@ -11,12 +11,12 @@ char tempChars[numChars];        // temporary array for use when parsing
 
       // variables to hold the parsed data
 char messageFromPC[numChars] = {0};
-// char message2FromPC[numChars] = {0};
-// char message3FromPC[numChars] = {0};
+char message2FromPC[numChars] = {0};
+char message3FromPC[numChars] = {0};
 
 int integerFromPC = 0;
-// int integer2FromPC = 0;
-// int integer3FromPC = 0;
+int integer2FromPC = 0;
+int integer3FromPC = 0;
 
 boolean newData = false;
 
@@ -30,8 +30,8 @@ void recvWithStartEndMarkers() {
     char endMarker = '>';
     char rc;
 
-    while (Serial1.available() > 0 && newData == false) {
-        rc = Serial1.read();
+    while (Serial.available() > 0 && newData == false) {
+        rc = Serial.read();
         Serial.println(rc);
 
         if (recvInProgress == true) {
@@ -68,17 +68,17 @@ void parseData() {      // split the data into its parts
     strtokIndx = strtok(NULL, ","); // this continues where the previous call left off
     integerFromPC = atoi(strtokIndx);     // convert this part to an integer
 
-    // strtokIndx = strtok(NULL,",");      // get the 2nd part - the string
-    // strcpy(message2FromPC, strtokIndx); // copy it to messageFromPC
+    strtokIndx = strtok(NULL,",");      // get the 2nd part - the string
+    strcpy(message2FromPC, strtokIndx); // copy it to messageFromPC
 
-    // strtokIndx = strtok(NULL, ",");
-    // integer2FromPC = atoi(strtokIndx);     // convert this part to a int
+    strtokIndx = strtok(NULL, ",");
+    integer2FromPC = atoi(strtokIndx);     // convert this part to a int
 
-    // strtokIndx = strtok(NULL,",");      // get the first part - the string
-    // strcpy(message3FromPC, strtokIndx); // copy it to messageFromPC
+    strtokIndx = strtok(NULL,",");      // get the first part - the string
+    strcpy(message3FromPC, strtokIndx); // copy it to messageFromPC
 
-    // strtokIndx = strtok(NULL, ",");
-    // integer3FromPC = atoi(strtokIndx);     // convert this part to a int
+    strtokIndx = strtok(NULL, ",");
+    integer3FromPC = atoi(strtokIndx);     // convert this part to a int
 
 }
 
@@ -103,9 +103,7 @@ void setup() {
     lcd.begin(16,2);
     lcd.clear();
     Serial.begin(9600);
-    Serial1.begin(9600);
     Serial.println("This demo expects 6 pieces of data - text, an integer x3");
-    // Serial1.println("Enter data in this style <HelloWorld, 12, 24.7>  ");
     Serial.println();
 }
 
@@ -129,13 +127,11 @@ void loop() {
     percent *= 100;
     lcd.print(messageFromPC);
     lcd.print(int(percent));
-    
 
-
-    // lcd.print(message2FromPC);
-    // lcd.println(integer2FromPC);
-    // lcd.print(message3FromPC);
-    // lcd.print(integer3FromPC);
+    lcd.print(message2FromPC);
+    lcd.print(integer2FromPC);
+    lcd.print(message3FromPC);
+    lcd.print(integer3FromPC);
 }
 
 
