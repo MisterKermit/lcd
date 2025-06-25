@@ -15,8 +15,8 @@ char message2FromPC[numChars] = {0};
 char message3FromPC[numChars] = {0};
 
 int integerFromPC = 0;
-int integer2FromPC = 0;
-int integer3FromPC = 0;
+char text2fromPC[numChars] = {0};
+char text3fromPC[numChars] = {0};
 
 boolean newData = false;
 
@@ -72,31 +72,31 @@ void parseData() {      // split the data into its parts
     strcpy(message2FromPC, strtokIndx); // copy it to messageFromPC
 
     strtokIndx = strtok(NULL, ",");
-    integer2FromPC = atoi(strtokIndx);     // convert this part to a int
+    strcpy(text2fromPC, strtokIndx);
 
     strtokIndx = strtok(NULL,",");      // get the first part - the string
     strcpy(message3FromPC, strtokIndx); // copy it to messageFromPC
 
     strtokIndx = strtok(NULL, ",");
-    integer3FromPC = atoi(strtokIndx);     // convert this part to a int
+    strcpy(text3fromPC, strtokIndx); 
 
 }
 
 //============
 
 void showParsedData() {
-    Serial.print("Message ");
-    Serial.println(messageFromPC);
-    Serial.print("Integer ");
-    Serial.println(integerFromPC);
+    // Serial.print("Message ");
+    // Serial.println(messageFromPC);
+    // Serial.print("Integer ");
+    // Serial.println(integerFromPC);
     // Serial.print("Message2  ");
     // Serial.println(message2FromPC);
     // Serial.print("Integer2 ");
-    // Serial.println(integer2FromPC);
+    // Serial.println(text2fromPC);
     // Serial.print("Message3 ");
     // Serial.println(message3FromPC);
     // Serial.print("Integer3 ");
-    // Serial.println(integer3FromPC);
+    // Serial.println(text3fromPC);
 }
 
 void setup() {
@@ -110,7 +110,6 @@ void setup() {
 //============
 
 void loop() {
-    lcd.setCursor(0,0);
     recvWithStartEndMarkers();
     if (newData == true) {
         strcpy(tempChars, receivedChars);
@@ -120,18 +119,24 @@ void loop() {
         showParsedData();
         lcd.clear();
 
+
         newData = false;
     }
-    
-    float percent = integerFromPC / 255.0;
+
+    lcd.setCursor(0,0);
+
+    float percent = integerFromPC / 300.0;
     percent *= 100;
     lcd.print(messageFromPC);
     lcd.print(int(percent));
 
     lcd.print(message2FromPC);
-    lcd.print(integer2FromPC);
+    lcd.print(text2fromPC);
+
+    lcd.setCursor(0,1);
     lcd.print(message3FromPC);
-    lcd.print(integer3FromPC);
+    lcd.print(text3fromPC);
+
 }
 
 
