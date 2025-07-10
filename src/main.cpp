@@ -86,9 +86,9 @@ void parseData() {      // split the data into its parts
 
 void showParsedData() {
     // Serial.print("Message ");
-    // Serial.println(messageFromPC);
+    Serial.println(messageFromPC);
     // Serial.print("Integer ");
-    // Serial.println(integerFromPC);
+    Serial.println(integerFromPC);
     // Serial.print("Message2  ");
     // Serial.println(message2FromPC);
     // Serial.print("Integer2 ");
